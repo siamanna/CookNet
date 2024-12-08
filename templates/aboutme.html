@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>About Me - My Food Blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-menu">
+        <div class="top-menu-content">
+            <a href="{{ url_for('index') }}" class="menu-center">Home</a>
+            <a href="{{ url_for('about') }}" class="menu-center active">About</a>
+            <a href="{{ url_for('contact') }}" class="menu-center">Contact</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="about-section flex-container">
+            <div class="about-image-container">
+                <img src="{{ url_for('static', filename='images/chef.jpg') }}" alt="Profile Picture" class="about-image">
+            </div>
+            <div class="about-content">
+                <h3>About Me, The Food Enthusiast</h3>
+                <h4><b>I am Who I Am!</b></h4>
+                <h6><i>With Passion For Real, Good Food</i></h6>
+                <p>
+                    Just me, myself, and I, exploring the universe of food and flavor. I have a heart for culinary adventures and a love for discovering new recipes.
+                </p>
+                <p>
+                    Join me on my journey to create, share, and inspire through delicious, mouth-watering recipes from around the globe.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p class="center">&copy; 2024 My Food Blog. All rights reserved.</p>
+    </footer>
+</body>
+</html>

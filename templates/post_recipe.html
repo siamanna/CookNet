@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Post Recipe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-menu">
+        <div class="top-menu-content">
+            <a href="{{ url_for('dashboard') }}" class="menu-center">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="menu-center">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 class="center">Post Your Recipe</h1>
+
+        <form method="POST" enctype="multipart/form-data" class="contact-form">
+            <label for="title">Recipe Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter recipe title..." required>
+
+            <label for="ingredients">Ingredients</label>
+            <textarea id="ingredients" name="ingredients" rows="4" placeholder="List ingredients..." required></textarea>
+
+            <label for="directions">Recipe Directions</label>
+            <textarea id="directions" name="directions" rows="6" placeholder="Write recipe directions..." required></textarea>
+
+            <label for="image">Upload an Image</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <button type="submit" class="button">Post Recipe</button>
+        </form>
+    </div>
+</body>
+</html>

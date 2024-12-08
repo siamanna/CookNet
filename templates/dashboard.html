@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-menu">
+        <div class="top-menu-content">
+            <a href="{{ url_for('post_recipe') }}" class="menu-center">Post Recipe</a>
+            <a href="{{ url_for('logout') }}" class="menu-center">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 class="center">Welcome, {{ username }}!</h1>
+        <h2>Your Recipes</h2>
+
+        {% for recipe in recipes %}
+        <div class="recipe-card">
+            <h3>{{ recipe['title'] }}</h3>
+            {% if recipe['image'] %}
+            <img src="{{ recipe['image'] }}" alt="Recipe Image" class="recipe-image">
+            {% endif %}
+            <h4>Ingredients:</h4>
+            <p>{{ recipe['ingredients'] }}</p>
+            <h4>Directions:</h4>
+            <p>{{ recipe['directions'] }}</p>
+        </div>
+        {% else %}
+        <p>No recipes posted yet. <a href="{{ url_for('post_recipe') }}">Post your first recipe!</a></p>
+        {% endfor %}
+    </div>
+</body>
+</html>

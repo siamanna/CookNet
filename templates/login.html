@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login - My Food Blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-menu">
+        <div class="top-menu-content">
+            <a href="{{ url_for('index') }}" class="menu-center">Home</a>
+            <a href="{{ url_for('about') }}" class="menu-center">About</a>
+            <a href="{{ url_for('contact') }}" class="menu-center">Contact</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="auth-container">
+            <h1 class="center">Login</h1>
+            <form method="POST" class="auth-form">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" name="email" placeholder="Your email..." required>
+
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" placeholder="Your password..." required>
+
+                <button type="submit" class="button">Login</button>
+
+                <p class="center">Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p class="center">&copy; 2024 My Food Blog. All rights reserved.</p>
+    </footer>
+</body>
+</html>

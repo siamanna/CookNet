@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Register - My Food Blog</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="top-menu">
+    <div class="top-menu-content">
+      <a href="{{ url_for('index') }}" class="menu-center">Home</a>
+      <a href="{{ url_for('about') }}" class="menu-center">About</a>
+      <a href="{{ url_for('contact') }}" class="menu-center">Contact</a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="auth-container">
+      <h1 class="center">Register</h1>
+      <form action="{{ url_for('register') }}" method="POST" class="auth-form">
+        <!-- Ensure these 'name' attributes match the keys in app.py -->
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Your username..." required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email..." required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password..." required>
+
+        <button type="submit" class="button">Register</button>
+
+        <p class="center">
+          Already have an account? <a href="{{ url_for('login') }}">Login here</a>.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p class="center">&copy; 2024 My Food Blog. All rights reserved.</p>
+  </footer>
+</body>
+</html>
