@@ -3,12 +3,14 @@ from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, session, g, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf import CSRFProtect
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Secure random secret key
 DATABASE = 'recipes.db'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+csrf = CSRFProtect(app)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -201,6 +203,28 @@ def contact():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+
+# New Route: Delete Recipe
+@app.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
+def delete_recipe(recipe_id):
+    if 'user_id' not in session:
+        flash('Please log in to delete recipes.')
+        return redirect(url_for('login'))
+    
+    db = get_db()
+    
+    # Verify ownership of the recipe
+    recipe = db.execute("SELECT * FROM recipes WHERE id = ? AND user_id = ?", (recipe_id, session['user_id'])).fetchone()
+    
+    if recipe:
+        db.execute("DELETE FROM recipes WHERE id = ?", (recipe_id,))
+        db.commit()
+        flash('Recipe deleted successfully.')
+    else:
+        flash('Recipe not found or you do not have permission to delete it.')
+    
+    return redirect(url_for('dashboard'))
 
 
 if __name__ == '__main__':
