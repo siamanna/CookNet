@@ -55,7 +55,7 @@ def init_db():
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         user_id INTEGER NOT NULL,
                         title TEXT NOT NULL,
-                        ingredients TEXT NOT NULL,
+                        ingredients TEXT NOT NULL, -- Ensure this line exists
                         directions TEXT NOT NULL,
                         image TEXT,
                         FOREIGN KEY (user_id) REFERENCES users (id)
