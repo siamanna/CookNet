@@ -3,7 +3,6 @@
 <head>
     <title>Dashboard - My Food Blog</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -25,29 +24,15 @@
             </div>
           {% endif %}
         {% endwith %}
+        
         <h1 class="center">Welcome, {{ username }}!</h1>
 
-        <div class="recipe-creation">
-            <h2>Create a New Recipe</h2>
-            <form method="POST" enctype="multipart/form-data" class="recipe-form">
-                <label for="title">Recipe Title</label>
-                <input type="text" id="title" name="title" placeholder="Recipe title..." required>
-                
-                <label for="ingredients">Ingredients</label>
-                <textarea id="ingredients" name="ingredients" placeholder="List ingredients..." required></textarea>
-                
-                <label for="directions">Directions</label>
-                <textarea id="directions" name="directions" placeholder="Describe the cooking process..." required></textarea>
-                
-                <label for="image">Recipe Image</label>
-                <input type="file" id="image" name="image" accept="image/*">
-                
-                <button type="submit" class="button">Post Recipe</button>
-            </form>
+        <div class="post-recipe-button center">
+            <a href="{{ url_for('post_recipe') }}" class="button">Post Your Recipe</a>
         </div>
 
-        <div class="user-recipes">
-            <h2>Your Recipes</h2>
+        <div class="all-recipes">
+            <h2>All Recipes</h2>
             {% for recipe in recipes %}
             <div class="recipe-card">
                 <h3>{{ recipe['title'] }}</h3>
@@ -58,13 +43,15 @@
                 <p>{{ recipe['ingredients'] }}</p>
                 <h4>Directions:</h4>
                 <p>{{ recipe['directions'] }}</p>
+
+                {% if recipe['user_id'] == session['user_id'] %}
                 <form method="POST" action="{{ url_for('delete_recipe', recipe_id=recipe['id']) }}" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
-                    {{ csrf_token() }}
                     <button type="submit" class="button button-delete">Delete</button>
                 </form>
+                {% endif %}
             </div>
             {% else %}
-            <p class="center">No recipes posted yet. <a href="{{ url_for('dashboard') }}">Post your first recipe!</a></p>
+            <p class="center">No recipes found. Be the first to <a href="{{ url_for('post_recipe') }}">post a recipe</a>!</p>
             {% endfor %}
         </div>
     </div>
@@ -72,6 +59,6 @@
     <footer class="footer">
         <p class="center">&copy; 2024 CookNet. All rights reserved.</p>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

@@ -3,16 +3,15 @@ from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, session, g, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_wtf import CSRFProtect
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Secure random secret key
 DATABASE = 'recipes.db'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-csrf = CSRFProtect(app)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB upload limit
 
 # Function to check allowed file extensions
 def allowed_file(filename):
@@ -57,7 +56,7 @@ def init_db():
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         user_id INTEGER NOT NULL,
                         title TEXT NOT NULL,
-                        ingredients TEXT NOT NULL, -- Ensure this line exists
+                        ingredients TEXT NOT NULL,
                         directions TEXT NOT NULL,
                         image TEXT,
                         FOREIGN KEY (user_id) REFERENCES users (id)
@@ -152,32 +151,54 @@ def profile():
     return render_template('profile.html', bio=user_profile['bio'] if user_profile else "", profile_image=user_profile['profile_image'] if user_profile else "")
 
 
-# Route: Dashboard (Recipe Management)
-@app.route('/dashboard', methods=['GET', 'POST'])
+# Route: Dashboard (Displays All Recipes)
+@app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
     db = get_db()
+
+    # Fetch recipes from all users
+    recipes = db.execute('''SELECT recipes.*, users.username 
+                             FROM recipes 
+                             JOIN users ON recipes.user_id = users.id 
+                             ORDER BY recipes.id DESC''').fetchall()
+
+    return render_template('dashboard.html', recipes=recipes, username=session['username'])
+
+
+# Route: Post Recipe
+@app.route('/post_recipe', methods=['GET', 'POST'])
+def post_recipe():
+    if 'user_id' not in session:
+        flash('Please log in to post a recipe.')
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
         title = request.form['title']
         ingredients = request.form['ingredients']
         directions = request.form['directions']
         image = None
+
         if 'image' in request.files:
             file = request.files['image']
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(image)
+            else:
+                flash('Invalid image file.')
+                return redirect(url_for('post_recipe'))
+
+        db = get_db()
         db.execute("INSERT INTO recipes (user_id, title, ingredients, directions, image) VALUES (?, ?, ?, ?, ?)",
                    (session['user_id'], title, ingredients, directions, image))
         db.commit()
         flash("Recipe posted successfully!")
         return redirect(url_for('dashboard'))
 
-    recipes = db.execute("SELECT * FROM recipes WHERE user_id = ?", (session['user_id'],)).fetchall()
-    return render_template('dashboard.html', recipes=recipes, username=session['username'])
+    return render_template('post_recipe.html')
 
 
 # Route: About Me (Display Profile)
@@ -193,9 +214,20 @@ def aboutme():
 
 
 # Route: Contact
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        # Handle contact form submission (e.g., send email)
+        # Implement your email sending logic here
+        flash('Your message has been sent successfully!')
+        return redirect(url_for('thankyou'))
     return render_template('mail.html')
+
+
+# Route: Thank You Page
+@app.route('/thankyou')
+def thankyou():
+    return render_template('thankyou.html')
 
 
 # Route: Logout
@@ -205,7 +237,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-# New Route: Delete Recipe
+# Route: Delete Recipe
 @app.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):
     if 'user_id' not in session:
