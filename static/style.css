@@ -694,7 +694,8 @@ a:hover {
 }
 
 .button-delete {
-    background-color: #dc3545; /* Bootstrap's danger color */
+    /*background-color: #dc3545; /* Bootstrap's danger color */
+    background-color: #333;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -706,5 +707,128 @@ a:hover {
 }
 
 .button-delete:hover {
-    background-color: #c82333;
+    /*background-color: #c82333;*/
+    background-color: #777;
+}
+
+/* Recipe Actions */
+.recipe-actions {
+    margin-top: 10px;
+}
+
+.button-edit {
+    /*background-color: #28a745; /* Green color for edit */
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* Adds space between buttons */
+    text-decoration: none;
+}
+
+.button-edit:hover {
+    /*background-color: #218838;*/
+    background-color: #777;
+}
+
+/* Current Image Display */
+.current-image {
+    margin-bottom: 10px;
+}
+
+.current-image img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* ================================
+   Edit Profile Form Styles
+=============================== */
+
+/* Profile Form Container */
+.profile-form {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Form Headings */
+.profile-form h2, .profile-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0078D7;
+}
+
+/* Form Labels */
+.profile-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Form Inputs and Textareas */
+.profile-form input[type="text"],
+.profile-form input[type="number"],
+.profile-form input[type="url"],
+.profile-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* File Input */
+.profile-form input[type="file"] {
+    margin-bottom: 15px;
+}
+
+/* Current Image Display */
+.profile-form .current-image img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    margin-bottom: 10px;
+}
+
+/* Submit Button */
+.profile-form button {
+    background-color: #0078D7;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+.profile-form button:hover {
+    background-color: #0053a0;
+}
+
+/* Flash Messages */
+.flash-messages {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.flash-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-align: center;
 }

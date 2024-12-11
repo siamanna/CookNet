@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Recipe - My Food Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="mySidebar">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('aboutme') }}">About Me</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <!-- Top Menu with Hamburger Button -->
+    <div class="top-menu">
+        <div class="top-menu-content">
+            <div class="menu-button" aria-label="Toggle Menu">☰</div>
+            <a href="{{ url_for('dashboard') }}" class="menu-center active">Dashboard</a>
+            <a href="{{ url_for('aboutme') }}" class="menu-center">About Me</a>
+            <a href="{{ url_for('logout') }}" class="menu-center">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        
+        <h1 class="center">Edit Recipe</h1>
+
+        <form method="POST" enctype="multipart/form-data" class="contact-form">
+            <label for="title">Recipe Title</label>
+            <input type="text" id="title" name="title" value="{{ recipe['title'] }}" placeholder="Enter recipe title..." required>
+
+            <label for="ingredients">Ingredients</label>
+            <textarea id="ingredients" name="ingredients" rows="4" placeholder="List ingredients..." required>{{ recipe['ingredients'] }}</textarea>
+
+            <label for="directions">Recipe Directions</label>
+            <textarea id="directions" name="directions" rows="6" placeholder="Write recipe directions..." required>{{ recipe['directions'] }}</textarea>
+
+            <label for="image">Upload an Image</label>
+            {% if recipe['image'] %}
+                <div class="current-image">
+                    <img src="{{ url_for('static', filename=recipe['image'].split('static/')[-1]) }}" alt="Current Image" class="recipe-image">
+                </div>
+                <p>If you want to replace the image, upload a new one below:</p>
+            {% endif %}
+            <input type="file" id="image" name="image" accept="image/*">
+
+            <button type="submit" class="button">Update Recipe</button>
+        </form>
+    </div>
+</body>
+</html>

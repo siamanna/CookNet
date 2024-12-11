@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile - My Food Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .profile-form {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .profile-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0078D7;
+        }
+
+        .profile-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .profile-form input[type="text"],
+        .profile-form input[type="number"],
+        .profile-form input[type="url"],
+        .profile-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .profile-form input[type="file"] {
+            margin-bottom: 15px;
+        }
+
+        .profile-form .current-image img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .profile-form button {
+            background-color: #0078D7;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .profile-form button:hover {
+            background-color: #0053a0;
+        }
+
+        .flash-messages {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .flash-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-menu">
+        <div class="top-menu-content">
+            <a href="{{ url_for('dashboard') }}" class="menu-center">Dashboard</a>
+            <a href="{{ url_for('aboutme') }}" class="menu-center">About Me</a>
+            <a href="{{ url_for('logout') }}" class="menu-center">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="profile-form">
+            <h2>Edit Your Profile</h2>
+            <form method="POST" enctype="multipart/form-data">
+
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="{{ profile['name'] }}" placeholder="Enter your name..." required>
+
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" value="{{ profile['age'] }}" placeholder="Enter your age..." min="0" required>
+
+                <label for="profile_image">Profile Picture</label>
+                {% if profile['profile_image'] %}
+                    <div class="current-image">
+                        <img src="{{ url_for('static', filename=profile['profile_image'].split('static/')[-1]) }}" alt="Current Profile Picture">
+                    </div>
+                    <p>If you want to replace the image, upload a new one below:</p>
+                {% endif %}
+                <input type="file" id="profile_image" name="profile_image" accept="image/*">
+
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself...">{{ profile['bio'] }}</textarea>
+
+                <h3>Social Media Links</h3>
+
+                <label for="facebook">Facebook URL</label>
+                <input type="url" id="facebook" name="facebook" value="{{ profile['facebook'] }}" placeholder="https://facebook.com/yourprofile">
+
+                <label for="instagram">Instagram URL</label>
+                <input type="url" id="instagram" name="instagram" value="{{ profile['instagram'] }}" placeholder="https://instagram.com/yourprofile">
+
+                <label for="x">X (Twitter) URL</label>
+                <input type="url" id="x" name="x" value="{{ profile['x'] }}" placeholder="https://twitter.com/yourprofile">
+
+                <label for="linkedin">LinkedIn URL</label>
+                <input type="url" id="linkedin" name="linkedin" value="{{ profile['linkedin'] }}" placeholder="https://linkedin.com/in/yourprofile">
+                <label for="website">Personal Website</label>
+                <input type="url" id="website" name="website" value="{{ profile['website'] }}" placeholder="https://yourwebsite.com">
+
+                <button type="submit">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
