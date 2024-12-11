@@ -100,7 +100,7 @@ a:hover {
     background-color: #0078D7;
 }
 
-/* Hamburger Menu Button (if applicable) */
+/* Hamburger Menu Button (visible on smaller screens) */
 .menu-button {
     font-size: 24px;
     cursor: pointer;
@@ -448,52 +448,6 @@ a:hover {
     color: #333;
 }
 
-.contact-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border 0.3s ease;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: #0078D7;
-    outline: none;
-}
-
-.contact-form textarea {
-    resize: vertical;
-    height: 150px;
-}
-
-.contact-form .button {
-    background-color: #0078D7;
-    color: #fff;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.contact-form .button:hover {
-    background-color: #0056a3;
-}
-
 /* Success Message */
 .success-message {
     background-color: #e0f7fa;
@@ -605,7 +559,7 @@ a:hover {
 /* Popular Tags */
 .tags .tag {
     display: inline-block;
-    background-color: #0078D7;
+    background-color: #333;
     color: #fff;
     padding: 6px 12px;
     margin: 4px 4px 0 0;
@@ -615,7 +569,7 @@ a:hover {
 }
 
 .tags .tag:hover {
-    background-color: #0056a3;
+    background-color: #555;
 }
 
 /* ================================
@@ -627,6 +581,7 @@ a:hover {
     .top-menu-content {
         flex-direction: column;
         align-items: flex-start;
+        position: relative;
     }
 
     .menu-center {
@@ -718,4 +673,22 @@ a:hover {
 
 .sidebar:not(.open) {
     animation: slideOut 0.4s forwards;
+}
+
+.button {
+    background-color: #333;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    display: inline-block; /* Ensures buttons appear inline */
+    margin: 8px; /* Adds space between buttons */
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #555;
 }
