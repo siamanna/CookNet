@@ -1,10 +1,28 @@
-/* General Styles */
-body, h1, h2, h3, h4, h5, h6 {
-    font-family: "Karma", sans-serif;
+/* ================================
+   General Styles
+================================ */
+
+/* Reset margins and paddings for all elements */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+/* Set base font and background */
+body, h1, h2, h3, h4, h5, h6, p, ul, li, a {
+    font-family: "Karma", sans-serif;
+    color: #333;
+}
+
+/* Body background color */
+body {
+    background-color: #f8f8f8;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Images */
 img {
     max-width: 100%;
     height: auto;
@@ -12,82 +30,422 @@ img {
     vertical-align: middle;
 }
 
+/* Links */
 a {
-    color: inherit;
+    color: #0078D7; /* Primary link color */
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 a:hover {
+    color: #0056a3;
     text-decoration: underline;
 }
 
+/* Center Text */
 .center {
     text-align: center;
 }
 
+/* Clearfix */
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
 }
 
-/* Top Menu */
+/* ================================
+   Top Menu Styles
+================================ */
+
+/* Top Menu Container */
 .top-menu {
     position: fixed;
     top: 0;
     width: 100%;
     background-color: #fff;
     z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.16), 0 2px 10px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* Top Menu Content */
 .top-menu-content {
     max-width: 1200px;
     margin: auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
+    justify-content: space-around;
+    padding: 0 20px;
     height: 60px;
 }
 
+/* Menu Links */
+.menu-center {
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+    padding: 0 10px;
+    position: relative;
+}
+
+/* Active Menu Link */
+.menu-center.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background-color: #0078D7;
+}
+
+/* Hamburger Menu Button (if applicable) */
 .menu-button {
     font-size: 24px;
     cursor: pointer;
+    display: none; /* Hidden by default; shown on smaller screens */
 }
 
-.menu-center {
-    text-align: center;
-    flex: 1;
+/* ================================
+   Sidebar Styles
+================================ */
+
+/* Sidebar Container */
+.sidebar {
+    height: 100%;
+    width: 0; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: transform 0.4s ease;
+    z-index: 999;
+    min-width: 250px;
+    padding-top: 60px; /* Height of the top menu */
+}
+
+/* Open Sidebar */
+.sidebar.open {
+    transform: translateX(250px);
+}
+
+/* Sidebar Links */
+.sidebar a {
+    padding: 15px 25px;
+    text-decoration: none;
     font-size: 16px;
+    color: #333;
+    display: block;
+    transition: background-color 0.3s ease;
 }
 
-.menu-center.active {
-    font-weight: bold;
-    text-decoration: underline;
+.sidebar a:hover {
+    background-color: #f1f1f1;
 }
 
-.menu-center:hover {
-    text-decoration: underline;
+/* Overlay when Sidebar is Open */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 998;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
-/* Main Content */
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ================================
+   Main Content Styles
+================================ */
+
+/* General Main Content */
 .main-content {
-    margin-top: 80px;
-    padding: 16px;
+    margin-top: 80px; /* Space for the fixed top menu */
+    padding: 20px;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* ================================
+   Authentication Styles
+================================ */
+
+/* Authentication Container (Login, Register, Profile) */
+.auth-container {
+    background-color: #fff;
+    padding: 32px;
+    margin: 40px auto;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.auth-container h1 {
+    margin-bottom: 24px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"],
+.auth-form textarea,
+.recipe-form input[type="text"],
+.recipe-form textarea,
+.recipe-form input[type="file"],
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
+}
+
+.auth-form input:focus,
+.auth-form textarea:focus,
+.recipe-form input:focus,
+.recipe-form textarea:focus,
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #0078D7;
+    outline: none;
+}
+
+.auth-form textarea,
+.recipe-form textarea,
+.contact-form textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.auth-form .button,
+.recipe-form .button,
+.contact-form .button {
+    background-color: #0078D7;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.auth-form .button:hover,
+.recipe-form .button:hover,
+.contact-form .button:hover {
+    background-color: #0056a3;
+}
+
+.auth-form p,
+.recipe-form p {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.auth-form p a,
+.recipe-form p a {
+    color: #0078D7;
+}
+
+.auth-form p a:hover,
+.recipe-form p a:hover {
+    text-decoration: underline;
+}
+
+/* ================================
+   Profile Page Styles
+================================ */
+
+/* Profile Image */
+.profile-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 16px;
+}
+
+/* ================================
+   Dashboard and Recipe Styles
+================================ */
+
+/* Recipe Creation Form */
+.recipe-creation {
+    background-color: #fff;
+    padding: 24px;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.recipe-creation h2 {
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.recipe-form label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.recipe-form input[type="text"],
+.recipe-form textarea,
+.recipe-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.recipe-form textarea {
+    height: 120px;
+}
+
+.user-recipes {
+    margin: 40px auto;
+    max-width: 800px;
+}
+
+.user-recipes h2 {
+    margin-bottom: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.recipe-card {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.recipe-card h3 {
+    margin-bottom: 12px;
+    color: #0078D7;
+}
+
+.recipe-card img.recipe-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.recipe-card h4 {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.recipe-card p {
+    margin-bottom: 12px;
+    color: #555;
+}
+
+/* ================================
+   About Me Section Styles
+================================ */
+
+/* About Section */
+.about-section {
+    background-color: #fff;
+    padding: 32px;
+    margin: 40px auto;
+    max-width: 1000px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+}
+
+.about-image-container {
+    flex: 1 1 300px;
+    text-align: center;
+}
+
+.about-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.about-content {
+    flex: 2 1 500px;
+    text-align: left;
+}
+
+.about-content h3 {
+    margin-bottom: 16px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.about-content h4 {
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.about-content h6 {
+    margin-bottom: 16px;
+    font-size: 1rem;
+    font-style: italic;
+    color: #555;
+}
+
+.about-content p {
+    margin-bottom: 12px;
+    color: #555;
+}
+
+/* ================================
+   Contact Form Styles
+================================ */
+
 /* Contact Form Container */
 .contact-container {
-    margin: 32px auto;
+    background-color: #fff;
+    padding: 32px;
+    margin: 40px auto;
     max-width: 600px;
-    padding: 24px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.contact-container h1 {
+    margin-bottom: 24px;
+    font-size: 2rem;
+    color: #333;
 }
 
 .contact-form label {
@@ -97,7 +455,8 @@ a:hover {
     font-size: 14px;
 }
 
-.contact-form input,
+.contact-form input[type="text"],
+.contact-form input[type="email"],
 .contact-form textarea {
     width: 100%;
     padding: 12px;
@@ -111,127 +470,209 @@ a:hover {
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-    border: 1px solid #333;
+    border-color: #0078D7;
     outline: none;
 }
 
 .contact-form textarea {
     resize: vertical;
+    height: 150px;
 }
 
 .contact-form .button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    background-color: #000;
+    background-color: #0078D7;
     color: #fff;
-    font-size: 16px;
-    text-align: center;
+    padding: 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
 .contact-form .button:hover {
-    background-color: #555;
+    background-color: #0056a3;
 }
 
 /* Success Message */
 .success-message {
-    margin-top: 32px;
-    padding: 16px;
     background-color: #e0f7fa;
     border: 1px solid #26c6da;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: #00796b;
+    padding: 24px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 40px auto;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .success-message h2 {
-    color: #00796b;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
+    font-size: 1.8rem;
 }
 
-/* Footer */
+.success-message .button {
+    margin-top: 16px;
+    background-color: #0078D7;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.success-message .button:hover {
+    background-color: #0056a3;
+}
+
+/* ================================
+   Footer Styles
+================================ */
+
+/* Footer Container */
 .footer {
+    background-color: #fff;
+    padding: 32px;
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
     display: flex;
     flex-wrap: wrap;
-    padding: 32px;
-    background-color: #f1f1f1;
-    margin-top: 32px;
+    justify-content: space-between;
 }
 
+/* Footer Sections */
 .footer-third {
-    flex: 33.3333%;
+    flex: 1 1 250px;
     padding: 16px;
     box-sizing: border-box;
     text-align: center;
 }
 
 .footer h3 {
-    margin-bottom: 8px;
-    font-size: 18px;
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+    color: #333;
 }
 
-.footer p,
-.footer a {
-    font-size: 14px;
+.footer p {
+    font-size: 0.9rem;
     color: #555;
 }
 
-/* Responsive Footer */
+.footer a {
+    font-size: 0.9rem;
+    color: #0078D7;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Blog Posts in Footer */
+.blog-posts {
+    list-style: none;
+    padding: 0;
+}
+
+.blog-posts li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.blog-posts .blog-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 12px;
+}
+
+.blog-posts .blog-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+.blog-posts .blog-title + br + span {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Popular Tags */
+.tags .tag {
+    display: inline-block;
+    background-color: #0078D7;
+    color: #fff;
+    padding: 6px 12px;
+    margin: 4px 4px 0 0;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    transition: background-color 0.3s ease;
+}
+
+.tags .tag:hover {
+    background-color: #0056a3;
+}
+
+/* ================================
+   Responsive Design
+================================ */
+
+/* Responsive Top Menu */
 @media screen and (max-width: 768px) {
-    .footer-third {
-        flex: 100%;
-        text-align: center;
+    .top-menu-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .menu-center {
+        padding: 10px 0;
+        width: 100%;
+        text-align: left;
+    }
+
+    .menu-button {
+        display: block;
+        position: absolute;
+        top: 18px;
+        right: 20px;
+    }
+
+    .top-menu-content a.menu-center {
+        display: none; /* Hidden when sidebar is used */
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .overlay.active {
+        display: block;
     }
 }
 
-/* About Section */
-.about-section {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 32px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
+/* Responsive Auth and Form Containers */
+@media screen and (max-width: 600px) {
+    .auth-container,
+    .recipe-creation,
+    .user-recipes,
+    .contact-container,
+    .success-message {
+        padding: 20px;
+        margin: 20px;
+    }
 
-.about-image-container {
-    flex: 1 1 300px;
-    text-align: center;
-}
-
-.about-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-.about-content {
-    flex: 2 1 500px;
-    text-align: left;
-    line-height: 1.6;
-}
-
-.about-content h3 {
-    margin-bottom: 8px;
-    font-size: 1.8rem;
-}
-
-.about-content p {
-    margin-bottom: 12px;
-    font-size: 1rem;
-    color: #555;
-}
-
-/* Responsive Layout for About Section */
-@media screen and (max-width: 768px) {
     .about-section {
         flex-direction: column;
+        align-items: center;
     }
 
     .about-image-container,
@@ -239,208 +680,42 @@ a:hover {
         flex: 1 1 100%;
         text-align: center;
     }
-}
 
-/* Authentication Container */
-.auth-container {
-    margin: 50px auto;
-    max-width: 400px;
-    padding: 32px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.auth-container h1 {
-    margin-bottom: 16px;
-    font-size: 2rem;
-    color: #333;
-}
-
-.auth-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.auth-form input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border 0.3s ease;
-}
-
-.auth-form input:focus {
-    border: 1px solid #333;
-    outline: none;
-}
-
-.auth-form .button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    background-color: #000;
-    color: #fff;
-    font-size: 16px;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.auth-form .button:hover {
-    background-color: #555;
-}
-
-.auth-form p {
-    margin-top: 16px;
-    font-size: 14px;
-}
-
-.auth-form a {
-    color: #0078D7;
-    text-decoration: none;
-}
-
-.auth-form a:hover {
-    text-decoration: underline;
-}
-
-.recipe-card {
-    margin: 16px auto;
-    padding: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-}
-
-.recipe-card h3 {
-    margin-bottom: 8px;
-}
-
-.recipe-card img.recipe-image {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-bottom: 16px;
-}
-
-.recipe-card p {
-    margin-bottom: 12px;
-    line-height: 1.6;
-}
-
-/* Contact Form Styles */
-.contact-form {
-    background-color: #fff;
-    padding: 24px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.16), 0 2px 10px rgba(0,0,0,0.12);
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .contact-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  
-  .contact-form input[type="text"],
-  .contact-form input[type="email"],
-  .contact-form textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-  }
-  
-  .contact-form input[type="text"]:focus,
-  .contact-form input[type="email"]:focus,
-  .contact-form textarea:focus {
-    border-color: #555;
-    outline: none;
-  }
-  
-  .contact-form .button {
-    background-color: #000;
-    color: #fff;
-    padding: 12px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .contact-form .button:hover {
-    background-color: #555;
-  }
-  
-  /* Success Message Styles */
-  .success-message {
-    background-color: #dff0d8;
-    border: 1px solid #3c763d;
-    color: #3c763d;
-    padding: 24px;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: auto;
-    text-align: center;
-  }
-  
-  .success-message h2 {
-    margin-top: 0;
-  }
-  
-  .success-message .button {
-    margin-top: 16px;
-    background-color: #000;
-    color: #fff;
-    padding: 12px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .success-message .button:hover {
-    background-color: #555;
-  }
-  
-  /* Additional Styles (Optional) */
-  
-  /* Responsive Form */
-  @media screen and (max-width: 600px) {
-    .contact-form, .success-message {
-      padding: 16px;
+    .about-image {
+        width: 150px;
+        height: 150px;
     }
-  }
+}
 
-  @media screen and (max-width: 600px) {
-    .contact-form, .success-message {
-      padding: 16px;
+/* ================================
+   Animations
+================================ */
+
+/* Sidebar Slide In */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
     }
-  }
-  
-  /* Animations */
-  @keyframes animateleft {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  
-  @keyframes animateopacity {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
+    to {
+        transform: translateX(0);
+    }
+}
 
-  
+/* Sidebar Slide Out */
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Apply Animation to Sidebar */
+.sidebar.open {
+    animation: slideIn 0.4s forwards;
+}
+
+.sidebar:not(.open) {
+    animation: slideOut 0.4s forwards;
+}

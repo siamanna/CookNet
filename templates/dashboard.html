@@ -1,35 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Dashboard</title>
+    <title>Dashboard - My Food Blog</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
     <div class="top-menu">
         <div class="top-menu-content">
-            <a href="{{ url_for('post_recipe') }}" class="menu-center">Post Recipe</a>
+            <a href="{{ url_for('dashboard') }}" class="menu-center active">Dashboard</a>
+            <a href="{{ url_for('aboutme') }}" class="menu-center">About Me</a>
             <a href="{{ url_for('logout') }}" class="menu-center">Logout</a>
         </div>
     </div>
 
     <div class="main-content">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
         <h1 class="center">Welcome, {{ username }}!</h1>
-        <h2>Your Recipes</h2>
 
-        {% for recipe in recipes %}
-        <div class="recipe-card">
-            <h3>{{ recipe['title'] }}</h3>
-            {% if recipe['image'] %}
-            <img src="{{ recipe['image'] }}" alt="Recipe Image" class="recipe-image">
-            {% endif %}
-            <h4>Ingredients:</h4>
-            <p>{{ recipe['ingredients'] }}</p>
-            <h4>Directions:</h4>
-            <p>{{ recipe['directions'] }}</p>
+        <div class="recipe-creation">
+            <h2>Create a New Recipe</h2>
+            <form method="POST" enctype="multipart/form-data" class="recipe-form">
+                <label for="title">Recipe Title</label>
+                <input type="text" id="title" name="title" placeholder="Recipe title..." required>
+                
+                <label for="ingredients">Ingredients</label>
+                <textarea id="ingredients" name="ingredients" placeholder="List ingredients..." required></textarea>
+                
+                <label for="directions">Directions</label>
+                <textarea id="directions" name="directions" placeholder="Describe the cooking process..." required></textarea>
+                
+                <label for="image">Recipe Image</label>
+                <input type="file" id="image" name="image" accept="image/*">
+                
+                <button type="submit" class="button">Post Recipe</button>
+            </form>
         </div>
-        {% else %}
-        <p>No recipes posted yet. <a href="{{ url_for('post_recipe') }}">Post your first recipe!</a></p>
-        {% endfor %}
+
+        <div class="user-recipes">
+            <h2>Your Recipes</h2>
+            {% for recipe in recipes %}
+            <div class="recipe-card">
+                <h3>{{ recipe['title'] }}</h3>
+                {% if recipe['image'] %}
+                <img src="{{ url_for('static', filename=recipe['image'].split('static/')[-1]) }}" alt="Recipe Image" class="recipe-image">
+                {% endif %}
+                <h4>Ingredients:</h4>
+                <p>{{ recipe['ingredients'] }}</p>
+                <h4>Directions:</h4>
+                <p>{{ recipe['directions'] }}</p>
+            </div>
+            {% else %}
+            <p class="center">No recipes posted yet. <a href="{{ url_for('dashboard') }}">Post your first recipe!</a></p>
+            {% endfor %}
+        </div>
     </div>
+
+    <footer class="footer">
+        <p class="center">&copy; 2024 My Food Blog. All rights reserved.</p>
+    </footer>
 </body>
 </html>

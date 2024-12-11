@@ -5,7 +5,7 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a strong secret key
+app.secret_key = os.urandom(24)  # Secure random secret key
 DATABASE = 'recipes.db'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -37,28 +37,38 @@ def init_db():
     with app.app_context():
         db = get_db()
         db.execute('''CREATE TABLE IF NOT EXISTS users (
-                        id INTEGER PRIMARY KEY,
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
                         username TEXT UNIQUE NOT NULL,
                         email TEXT UNIQUE NOT NULL,
-                        password TEXT NOT NULL)''')
+                        password TEXT NOT NULL
+                      )''')
+
+        db.execute('''CREATE TABLE IF NOT EXISTS profiles (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER UNIQUE NOT NULL,
+                        bio TEXT,
+                        profile_image TEXT,
+                        FOREIGN KEY (user_id) REFERENCES users (id)
+                      )''')
 
         db.execute('''CREATE TABLE IF NOT EXISTS recipes (
-                        id INTEGER PRIMARY KEY,
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
                         user_id INTEGER NOT NULL,
                         title TEXT NOT NULL,
                         ingredients TEXT NOT NULL,
                         directions TEXT NOT NULL,
                         image TEXT,
-                        FOREIGN KEY (user_id) REFERENCES users (id))''')
+                        FOREIGN KEY (user_id) REFERENCES users (id)
+                      )''')
         db.commit()
 
 
-# Route: Homepage
+# Route: Landing Page
 @app.route('/')
 def index():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))  # Redirect to login if not logged in
-    return render_template('index.html', username=session['username'])
+    if 'user_id' in session:
+        return redirect(url_for('dashboard'))
+    return render_template('index.html')
 
 
 # Route: Register
@@ -74,9 +84,10 @@ def register():
             db.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
                        (username, email, password))
             db.commit()
+            flash("Registration successful! Please log in.")
             return redirect(url_for('login'))
         except sqlite3.IntegrityError:
-            flash ("Username or Email already exists!")
+            flash("Username or Email already exists!")
             return redirect(url_for('register'))
     return render_template('register.html')
 
@@ -94,13 +105,52 @@ def login():
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = user['username']
-            return redirect(url_for('index'))  # Redirect to homepage after login
+            # Check if user has a profile
+            profile = db.execute("SELECT * FROM profiles WHERE user_id = ?", (user['id'],)).fetchone()
+            if profile:
+                return redirect(url_for('dashboard'))
+            else:
+                return redirect(url_for('profile'))
         else:
-            return "Invalid email or password!"
+            flash("Invalid email or password!")
+            return redirect(url_for('login'))
     return render_template('login.html')
 
 
-# Route: Dashboard (Post Recipes)
+# Route: Profile Creation
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    db = get_db()
+    user_profile = db.execute("SELECT * FROM profiles WHERE user_id = ?", (session['user_id'],)).fetchone()
+    
+    if request.method == 'POST':
+        bio = request.form['bio']
+        # Handle profile image upload
+        file = request.files.get('profile_image')
+        profile_image = user_profile['profile_image'] if user_profile else None
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            profile_image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(profile_image)
+        if user_profile:
+            # Update existing profile
+            db.execute("UPDATE profiles SET bio = ?, profile_image = ? WHERE user_id = ?",
+                       (bio, profile_image, session['user_id']))
+        else:
+            # Insert new profile
+            db.execute("INSERT INTO profiles (user_id, bio, profile_image) VALUES (?, ?, ?)",
+                       (session['user_id'], bio, profile_image))
+        db.commit()
+        flash("Profile updated successfully!")
+        return redirect(url_for('dashboard'))
+    
+    return render_template('profile.html', bio=user_profile['bio'] if user_profile else "", profile_image=user_profile['profile_image'] if user_profile else "")
+
+
+# Route: Dashboard (Recipe Management)
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'user_id' not in session:
@@ -109,48 +159,41 @@ def dashboard():
     db = get_db()
     if request.method == 'POST':
         title = request.form['title']
-        content = request.form['content']
-        db.execute("INSERT INTO recipes (user_id, title, content) VALUES (?, ?, ?)",
-                   (session['user_id'], title, content))
+        ingredients = request.form['ingredients']
+        directions = request.form['directions']
+        image = None
+        if 'image' in request.files:
+            file = request.files['image']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(image)
+        db.execute("INSERT INTO recipes (user_id, title, ingredients, directions, image) VALUES (?, ?, ?, ?, ?)",
+                   (session['user_id'], title, ingredients, directions, image))
         db.commit()
+        flash("Recipe posted successfully!")
+        return redirect(url_for('dashboard'))
 
     recipes = db.execute("SELECT * FROM recipes WHERE user_id = ?", (session['user_id'],)).fetchall()
     return render_template('dashboard.html', recipes=recipes, username=session['username'])
 
-@app.route('/about')
-def about():
-    return render_template('aboutme.html')
 
+# Route: About Me (Display Profile)
+@app.route('/aboutme')
+def aboutme():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    db = get_db()
+    profile = db.execute("SELECT * FROM profiles WHERE user_id = ?", (session['user_id'],)).fetchone()
+    
+    return render_template('aboutme.html', profile=profile)
+
+
+# Route: Contact
 @app.route('/contact')
 def contact():
     return render_template('mail.html')
-
-@app.route('/post_recipe', methods=['GET', 'POST'])
-def post_recipe():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
-    if request.method == 'POST':
-        title = request.form['title']
-        ingredients = request.form['ingredients']
-        directions = request.form['directions']
-        file = request.files['image']
-
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-
-            db = get_db()
-            db.execute("INSERT INTO recipes (user_id, title, ingredients, directions, image) VALUES (?, ?, ?, ?, ?)",
-                       (session['user_id'], title, ingredients, directions, file_path))
-            db.commit()
-            flash("Recipe posted successfully!")
-            return redirect(url_for('dashboard'))
-        else:
-            flash("Invalid file format. Please upload an image.")
-
-    return render_template('post_recipe.html')
 
 
 # Route: Logout

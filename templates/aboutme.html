@@ -7,29 +7,33 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
     <div class="top-menu">
         <div class="top-menu-content">
-            <a href="{{ url_for('index') }}" class="menu-center">Home</a>
-            <a href="{{ url_for('about') }}" class="menu-center active">About</a>
+            <a href="{{ url_for('dashboard') }}" class="menu-center">Dashboard</a>
+            <a href="{{ url_for('aboutme') }}" class="menu-center active">About Me</a>
             <a href="{{ url_for('contact') }}" class="menu-center">Contact</a>
         </div>
     </div>
 
     <div class="main-content">
-        <div class="about-section flex-container">
+        <div class="about-section">
             <div class="about-image-container">
-                <img src="{{ url_for('static', filename='images/chef.jpg') }}" alt="Profile Picture" class="about-image">
+                {% if profile and profile['profile_image'] %}
+                <img src="{{ url_for('static', filename=profile['profile_image'].split('static/')[-1]) }}" alt="Profile Picture" class="about-image">
+                {% else %}
+                <img src="{{ url_for('static', filename='images/default_profile.jpg') }}" alt="Profile Picture" class="about-image">
+                {% endif %}
             </div>
             <div class="about-content">
-                <h3>About Me, The Food Enthusiast</h3>
+                <h3>About Me, {{ session['username'] }}</h3>
                 <h4><b>I am Who I Am!</b></h4>
                 <h6><i>With Passion For Real, Good Food</i></h6>
-                <p>
-                    Just me, myself, and I, exploring the universe of food and flavor. I have a heart for culinary adventures and a love for discovering new recipes.
-                </p>
-                <p>
-                    Join me on my journey to create, share, and inspire through delicious, mouth-watering recipes from around the globe.
-                </p>
+                {% if profile and profile['bio'] %}
+                <p>{{ profile['bio'] }}</p>
+                {% else %}
+                <p>No bio available. <a href="{{ url_for('profile') }}">Update your profile</a>.</p>
+                {% endif %}
             </div>
         </div>
     </div>

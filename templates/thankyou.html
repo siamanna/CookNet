@@ -4,86 +4,28 @@
   <title>Thank You - My Food Blog</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
-
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
-  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
-
-  <nav class="sidebar" id="mySidebar">
-    <a href="#food" onclick="toggleSidebar()" class="sidebar-item">Food</a>
-    <a href="#about" onclick="toggleSidebar()" class="sidebar-item">About</a>
-  </nav>
-
-  <div class="top-menu">
-    <div class="top-menu-content">
-      <div class="menu-button" onclick="toggleSidebar()" aria-label="Toggle Menu">☰</div>
-      <a href="mail.html" class="menu-center">Mail</a>
-      <div class="menu-center">My Food</div>
-    </div>
-  </div>
-
-  <div class="main-content">
   
-    <h1>Thank You!</h1>
-    <p>Your message has been successfully sent. We'll get back to you shortly.</p>
-
-    <a href="index.html" class="button">Back to Home</a>
-  </div>
-
-  <footer class="footer">
-    <div class="footer-third">
-      <h3>FOOTER</h3>
-      <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-    </div>
-  
-    <div class="footer-third">
-      <h3>BLOG POSTS</h3>
-      <ul class="blog-posts">
-        <li>
-          <img src="/w3images/workshop.jpg" alt="Workshop" class="blog-image">
-          <div>
-            <span class="blog-title">Lorem</span><br>
-            <span>Sed mattis nunc</span>
-          </div>
-        </li>
-        <li>
-          <img src="/w3images/gondol.jpg" alt="Gondol" class="blog-image">
-          <div>
-            <span class="blog-title">Ipsum</span><br>
-            <span>Praes tinci sed</span>
-          </div>
-        </li> 
-      </ul>
+    <div class="top-menu">
+        <div class="top-menu-content">
+            <a href="{{ url_for('index') }}" class="menu-center">Home</a>
+            <a href="{{ url_for('aboutme') }}" class="menu-center">About Me</a>
+            <a href="{{ url_for('contact') }}" class="menu-center active">Contact</a>
+        </div>
     </div>
 
-    <div class="footer-third tags">
-      <h3>POPULAR TAGS</h3>
-      <p>
-        <span class="tag">Travel</span> 
-        <span class="tag dark-grey small">New York</span> 
-        <span class="tag dark-grey small">Dinner</span>
-        <span class="tag dark-grey small">Salmon</span> 
-        <span class="tag dark-grey small">France</span> 
-        <span class="tag dark-grey small">Drinks</span>
-        <span class="tag dark-grey small">Ideas</span> 
-        <span class="tag dark-grey small">Flavors</span> 
-        <span class="tag dark-grey small">Cuisine</span>
-        <span class="tag dark-grey small">Chicken</span> 
-        <span class="tag dark-grey small">Dressing</span> 
-        <span class="tag dark-grey small">Fried</span>
-        <span class="tag dark-grey small">Fish</span> 
-        <span class="tag dark-grey small">Duck</span>
-      </p>
+    <div class="main-content">
+        <div class="success-message">
+            <h2>Thank You!</h2>
+            <p>Your message has been sent successfully.</p>
+            <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+        </div>
     </div>
-  </footer>
 
-</div>
-
-<script src="/static/script.js"></script>
-
+    <footer class="footer">
+        <p class="center">&copy; 2024 My Food Blog. All rights reserved.</p>
+    </footer>
 </body>
 </html>

@@ -7,10 +7,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
   <div class="top-menu">
     <div class="top-menu-content">
       <a href="{{ url_for('index') }}" class="menu-center">Home</a>
-      <a href="{{ url_for('about') }}" class="menu-center">About</a>
+      <a href="{{ url_for('aboutme') }}" class="menu-center">About Me</a>
       <a href="{{ url_for('contact') }}" class="menu-center">Contact</a>
     </div>
   </div>
@@ -18,8 +19,16 @@
   <div class="main-content">
     <div class="auth-container">
       <h1 class="center">Register</h1>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for message in messages %}
+              <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
       <form action="{{ url_for('register') }}" method="POST" class="auth-form">
-        <!-- Ensure these 'name' attributes match the keys in app.py -->
         <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="Your username..." required>
 
