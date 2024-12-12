@@ -32,7 +32,7 @@ img {
 
 /* Links */
 a {
-    color: #0078D7; /* Primary link color */
+    color: #000; /* Primary link color */
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -97,7 +97,7 @@ a:hover {
     transform: translateX(-50%);
     width: 60%;
     height: 2px;
-    background-color: #0078D7;
+    background-color: #000000;
 }
 
 /* Hamburger Menu Button (visible on smaller screens) */
@@ -231,7 +231,7 @@ a:hover {
 .recipe-form textarea:focus,
 .contact-form input:focus,
 .contact-form textarea:focus {
-    border-color: #0078D7;
+    border-color: #000000;
     outline: none;
 }
 
@@ -245,7 +245,7 @@ a:hover {
 .auth-form .button,
 .recipe-form .button,
 .contact-form .button {
-    background-color: #0078D7;
+    background-color: #000000;
     color: #fff;
     padding: 12px;
     border: none;
@@ -258,7 +258,7 @@ a:hover {
 .auth-form .button:hover,
 .recipe-form .button:hover,
 .contact-form .button:hover {
-    background-color: #0056a3;
+    background-color: #4e4949;
 }
 
 .auth-form p,
@@ -270,7 +270,7 @@ a:hover {
 
 .auth-form p a,
 .recipe-form p a {
-    color: #0078D7;
+    color: #4e4949;
 }
 
 .auth-form p a:hover,
@@ -350,7 +350,7 @@ a:hover {
 
 .recipe-card h3 {
     margin-bottom: 12px;
-    color: #0078D7;
+    color: #1e1f20;
 }
 
 .recipe-card img.recipe-image {
@@ -468,7 +468,7 @@ a:hover {
 
 .success-message .button {
     margin-top: 16px;
-    background-color: #0078D7;
+    background-color: #000000;
     color: #fff;
     padding: 12px 24px;
     border: none;
@@ -479,7 +479,7 @@ a:hover {
 }
 
 .success-message .button:hover {
-    background-color: #0056a3;
+    background-color: #4e4949;
 }
 
 /* ================================
@@ -518,7 +518,7 @@ a:hover {
 
 .footer a {
     font-size: 0.9rem;
-    color: #0078D7;
+    color: #1c1e1f;
 }
 
 .footer a:hover {
@@ -803,7 +803,7 @@ a:hover {
 
 /* Submit Button */
 .profile-form button {
-    background-color: #0078D7;
+    background-color: #282b2d;
     color: #fff;
     padding: 12px 20px;
     border: none;
