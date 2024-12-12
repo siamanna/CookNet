@@ -194,8 +194,9 @@ def post_recipe():
 
     if request.method == 'POST':
         title = bleach.clean(request.form['title'])
-        ingredients = bleach.clean(request.form['ingredients'])
-        directions = bleach.clean(request.form['directions'])
+        # Replace carriage returns with newline characters for consistency
+        ingredients = bleach.clean(request.form['ingredients']).replace('\r\n', '\n')
+        directions = bleach.clean(request.form['directions']).replace('\r\n', '\n')
         image = None
 
         if 'image' in request.files:
@@ -217,6 +218,7 @@ def post_recipe():
 
     return render_template('post_recipe.html')
 
+
 # Route: Edit Recipe
 @app.route('/edit_recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
@@ -233,8 +235,8 @@ def edit_recipe(recipe_id):
 
     if request.method == 'POST':
         title = bleach.clean(request.form['title'])
-        ingredients = bleach.clean(request.form['ingredients'])
-        directions = bleach.clean(request.form['directions'])
+        ingredients = bleach.clean(request.form['ingredients']).replace('\r\n', '\n')
+        directions = bleach.clean(request.form['directions']).replace('\r\n', '\n')
         image = recipe['image']  # Keep existing image by default
 
         if 'image' in request.files:
@@ -257,6 +259,7 @@ def edit_recipe(recipe_id):
         return redirect(url_for('dashboard'))
 
     return render_template('edit_recipe.html', recipe=recipe)
+
 
 # Route: About Me (Display Profile)
 @app.route('/aboutme')

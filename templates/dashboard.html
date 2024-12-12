@@ -49,10 +49,32 @@
                 {% if recipe['image'] %}
                 <img src="{{ url_for('static', filename=recipe['image'].split('static/')[-1]) }}" alt="Recipe Image" class="recipe-image">
                 {% endif %}
+                
                 <h4>Ingredients:</h4>
-                <p>{{ recipe['ingredients'] }}</p>
+                {% if recipe['ingredients'] %}
+                <ol>
+                    {% for ingredient in recipe['ingredients'].split('\n') %}
+                        {% if ingredient.strip() %}
+                            <li>{{ ingredient }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p>No ingredients listed.</p>
+                {% endif %}
+
                 <h4>Directions:</h4>
-                <p>{{ recipe['directions'] }}</p>
+                {% if recipe['directions'] %}
+                <ol>
+                    {% for direction in recipe['directions'].split('\n') %}
+                        {% if direction.strip() %}
+                            <li>{{ direction }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p>No directions provided.</p>
+                {% endif %}
 
                 <div class="recipe-actions">
                     {% if recipe['user_id'] == session['user_id'] %}

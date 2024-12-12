@@ -911,3 +911,19 @@ a:hover {
         margin: 5px 0;
     }
 }
+
+/* ================================
+   Ordered Lists Styles
+================================ */
+
+/* Style for ordered lists within recipe cards */
+.recipe-card ol {
+    padding-left: 20px; /* Indent list items */
+    margin-bottom: 20px; /* Space below the list */
+}
+
+.recipe-card li {
+    margin-bottom: 10px; /* Space between list items */
+    line-height: 1.5; /* Improved readability */
+    color: #555; /* Subtle text color */
+}
