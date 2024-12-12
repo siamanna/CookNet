@@ -832,3 +832,82 @@ a:hover {
     margin-bottom: 10px;
     text-align: center;
 }
+
+/* Make recipe-actions a flex container */
+.recipe-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Edit Button Styles */
+.button-edit {
+    background-color: #777; /* Green color for edit */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    /* Remove margin-left to prevent unnecessary spacing */
+    margin: 0;
+    text-decoration: none;
+}
+
+.button-edit:hover {
+    background-color: #333;
+}
+
+/* Delete Button Styles */
+.button-delete {
+    background-color: #777; /* Red color indicating danger */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    /* Remove margin-top and margin-left to align correctly */
+    margin: 0;
+}
+
+.button-delete:hover {
+    background-color: #333;
+}
+
+/* ================================
+   Additional Styles (Optional)
+=============================== */
+
+/* Ensure forms inside recipe-actions don't take full width */
+.recipe-actions form {
+    display: inline;
+}
+
+/* Adjust button sizes if necessary */
+.button-edit,
+.button-delete {
+    min-width: 100px;
+    text-align: center;
+}
+
+/* ================================
+   Responsive Design Adjustments
+=============================== */
+
+/* Ensure buttons stack vertically on very small screens */
+@media screen and (max-width: 480px) {
+    .recipe-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button-edit,
+    .button-delete {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
